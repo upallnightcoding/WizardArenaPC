@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class MazeGenerator 
 {
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+
     private IDictionary<MazeIndex, MazeCell> maze;
     private Stack<MazeCell> mazeStack;
-    private int width, height;
 
     public MazeGenerator(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.Width = width;
+        this.Height = height;
 
         mazeStack = new Stack<MazeCell>();
         maze = new Dictionary<MazeIndex, MazeCell>();
@@ -89,9 +91,9 @@ public class MazeGenerator
 
     private void BuildMaze()
     {
-        for (int  col = 0;  col < width;  col++) 
+        for (int  col = 0;  col < Width;  col++) 
         {
-            for (int row = 0; row < height; row++)
+            for (int row = 0; row < Height; row++)
             {
                 maze.Add(new MazeIndex(col, row), new MazeCell(col, row));
             }
@@ -110,7 +112,7 @@ public class MazeGenerator
         return(mazeStack.Count == 0);
     }
 
-    private MazeCell GetMazeCell(int col, int row)
+    public MazeCell GetMazeCell(int col, int row)
     {
         MazeCell mazeCell = null;
 
@@ -122,8 +124,8 @@ public class MazeGenerator
     }
 
     private MazeCell GetRandomMazeCell() {
-        int col = GetRandom(width);
-        int row = GetRandom(height);
+        int col = GetRandom(Width);
+        int row = GetRandom(Height);
 
         return(GetMazeCell(col, row));
     }
