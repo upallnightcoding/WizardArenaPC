@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 19b8aace0a6eff64ab39d6b6e277aaad
+guid: 603ed51b4d0587c429b717538a51e191
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -581,7 +581,7 @@ ModelImporter:
     second: mannequin_geo_calf_l
   - first:
       74: 7400000
-    second: Idle_Without_Weapon 1
+    second: Idle_2_Without_Weapon 1
   - first:
       95: 9500000
     second: //RootNode
@@ -665,11 +665,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle_Without_Weapon 1
+      name: Idle_2_Without_Weapon 1
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 60
+      lastFrame: 180
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
