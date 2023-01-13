@@ -25,10 +25,10 @@ public class MazeCell
         BeenVisited = true;
     }
 
-    public override string ToString()
-    {
-        return $"Col: {Col},Row: {Row} - Visted: {BeenVisited}";
-    }
+    // public override string ToString()
+    // {
+    //     return $"Col: {Col},Row: {Row} - Visted: {BeenVisited}";
+    // }
 
     public void CollapseWall(MazeCell neighbor)
     {

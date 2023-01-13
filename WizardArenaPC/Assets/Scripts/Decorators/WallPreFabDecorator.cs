@@ -12,8 +12,6 @@ public class WallPreFabDecorator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"Start WallBasicDecorator ... {rotateWallSegment}");
-
         Transform anchors = this.gameObject.transform.Find("Anchors");
 
         Transform wall1Anchor = anchors.Find("Wall1Anchor");

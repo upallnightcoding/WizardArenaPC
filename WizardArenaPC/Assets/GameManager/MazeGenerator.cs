@@ -27,8 +27,6 @@ public class MazeGenerator
         {
             MazeCell currentMazeCell = mazeStack.Peek();
 
-            Debug.Log($"Current Maze Cell: {currentMazeCell}");
-
             MazeCell neighbor = PickAValidNeighbor(currentMazeCell);
 
             WalkMaze(neighbor);
