@@ -45,7 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   columnPreFab: {fileID: 5692767165658355990, guid: 77e47724ebd65704a916be7bc54f407c, type: 3}
-  wallSegPreFab: {fileID: 8101456864322387401, guid: 3b2a7dbbbab92744bb7ebd38263b1805, type: 3}
+  wallSegListPreFab:
+  - preFab: {fileID: 8101456864322387401, guid: 3b2a7dbbbab92744bb7ebd38263b1805, type: 3}
+    percentage: 75
+    rank: 0
+  - preFab: {fileID: 1370113798675153657, guid: 8dbc6d940ccc6144db36ffee3f041d62, type: 3}
+    percentage: 25
+    rank: 0
   rotateWallSegment: 0
 --- !u!1 &2648008769066079696
 GameObject:

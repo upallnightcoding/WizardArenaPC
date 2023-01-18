@@ -8,62 +8,73 @@ public class PlayerCntrl : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float cameraSpeed;
 
-    private CharacterController controller;
+    private CharacterController characterCntrl;
     private PlayerInputActions playerInputActions;
+    private Animator animator;
+
+    private Transform cameraObservePos;
+    private Transform cameraFollowPos;
 
     private InputAction movement;
     private InputAction firer;
 
-    private Vector3 playerDirection;
+    private float inputX;
+    private float inputZ;
 
-    // Update is called once per frame
-    void Update()
+    void Update() 
     {
-        playerDirection = Vector3.zero;
-        playerDirection += movement.ReadValue<Vector2>().x * GetCameraRight();
-        playerDirection += movement.ReadValue<Vector2>().y * GetCameraForward();
+        Vector2 input = movement.ReadValue<Vector2>();
 
-        controller.Move(playerDirection * movementSpeed * Time.deltaTime);
+        inputX = input.x;
+        inputZ = input.y;
+        
+        animator.SetFloat("speed", inputZ);
+
+        characterCntrl.transform.Rotate(Vector3.up * (inputX * rotationSpeed * Time.deltaTime));
+
+        //Vector3 move = characterCntrl.transform.forward * inputZ;
+
+        characterCntrl.Move(characterCntrl.transform.forward * (inputZ * movementSpeed * Time.deltaTime));
     }
 
-    private Vector3 GetCameraRight()
+    void LateUpdate() 
     {
-        Vector3 right = playerCamera.transform.right;
-        right.y = 0;
+        if (inputZ <= 0) {
+            playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, cameraObservePos.position, cameraSpeed * Time.deltaTime);
+        } else {
+            playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, cameraFollowPos.position, cameraSpeed * Time.deltaTime);
+        }
 
-        return(right.normalized);
-    }
+        // if (inputZ == 0) {
+        //     playerCamera.transform.position = cameraObservePos.position;
+        // } else {
+        //     playerCamera.transform.position = cameraFollowPos.position;
+        // }
 
-    private Vector3 GetCameraForward()
-    {
-        Vector3 forward = playerCamera.transform.forward;
-        forward.y = 0;
-
-        return(forward.normalized);
     }
 
     private void PlayerFired(InputAction.CallbackContext cb)
     {
         Debug.Log("PlayerFired ...");
     }
-
-    private void PlayerMovement(InputAction.CallbackContext cb) 
-    {
-        Vector2 pos = cb.ReadValue<Vector2>();
-        Debug.Log($"Position: {pos}");        
-    }
-
+   
     private void Awake() {
         playerInputActions = new PlayerInputActions();
-
-        controller = GetComponent<CharacterController>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        characterCntrl = GetComponent<CharacterController>();
+
+        cameraObservePos = gameObject.transform.Find("CameraObservePosition");
+        cameraFollowPos = gameObject.transform.Find("CameraFollowPosition");
+
+        Debug.Log($"{cameraObservePos.position}/{cameraFollowPos.position}");
     }
 
     private void OnEnable() {
@@ -75,8 +86,8 @@ public class PlayerCntrl : MonoBehaviour
         movement.Enable();   
         firer.Enable();
 
+        // Define all callbacks
         firer.performed += PlayerFired; 
-        movement.performed += PlayerMovement;
     }
 
     private void OnDisable() {
@@ -85,7 +96,7 @@ public class PlayerCntrl : MonoBehaviour
         movement.Disable();
         firer.Disable();
 
+        // UnDefine all callbacks
         firer.performed -= PlayerFired; 
-        movement.performed -= PlayerMovement;
     }
 }

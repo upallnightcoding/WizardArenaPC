@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70d65d0e224a6443ae021085f6504a9, type: 3}
   m_Name: MazeData
   m_EditorClassIdentifier: 
-  height: 20
-  width: 20
+  height: 7
+  width: 7
   cellSize: 6
   mazePathPreFab: {fileID: 2139055340411595463, guid: c59af19f3f4dcd84fb44024529cecf0b, type: 3}
   mazeWallPreFab: {fileID: 1683018183455508976, guid: 9f4ba4b129862ee4c89a0aea70ad6bf0, type: 3}

@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3002230499777051195}
-  - component: {fileID: 8327042425854242336}
+  - component: {fileID: -1886442828300473694}
   m_Layer: 0
   m_Name: MazePathPreFab
   m_TagString: Untagged
@@ -131,20 +131,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8327042425854242336
+--- !u!114 &-1886442828300473694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139055340411595463}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb4375a79fe67b84c8cb541bf05ba695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazePathPreFab: {fileID: 2139055340411595463}
-  mazeWallPreFab: {fileID: 1683018183455508976, guid: 9f4ba4b129862ee4c89a0aea70ad6bf0, type: 3}
+  grassPreFab:
+  - {fileID: 183504, guid: 0c304bc889204454f8fc4d0785062393, type: 3}
+  - {fileID: 135730, guid: e1738ea6b16bd5b42925129bcbf53645, type: 3}
+  - {fileID: 180664, guid: 241c73d481ba3704fb80fb6d7c8c486d, type: 3}
+  - {fileID: 167876, guid: 5330fd55e7671124bbd29129be5a2581, type: 3}
+  - {fileID: 157478, guid: 61005fc8bb8927c4e94f273fd666083d, type: 3}
+  - {fileID: 135530, guid: 69d4f71185472de4daac68a971e11d27, type: 3}
+  - {fileID: 146442, guid: 16ee125225868c44d8f405f0bd4ab1d6, type: 3}
+  - {fileID: 144940, guid: 0295821be6204354d9cccf880a057f93, type: 3}
+  - {fileID: 111240, guid: 5419b44f13b149149bb265edae67aec6, type: 3}
+  - {fileID: 156296, guid: 9ab8264bda5c44943a4faef8943a62a8, type: 3}
+  nGrassPreFabs: 3
 --- !u!1 &3154218857484438627
 GameObject:
   m_ObjectHideFlags: 0
