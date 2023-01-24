@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MazeCell 
 {
-    public bool BeenVisited { get; private set; } = false;
+    public MazeCellType type { get; private set; } = MazeCellType.UNVISITED;
 
     public bool NorthWall { get; set; } = true;
     public bool SouthWall { get; set; } = true;
@@ -14,21 +14,27 @@ public class MazeCell
     public int Col { get; private set; }
     public int Row { get; private set; }
 
+    public GameObject MazePath { get; set; }
+
+    //public bool BeenVisited() { return(type == MazeCellType.VISITED); } 
+    public void SetAsArena()    { type = MazeCellType.ARENA; }
+    public void MarkAsVisited() { type = MazeCellType.VISITED; }
+    public bool IsUnVisited()   { return(type == MazeCellType.UNVISITED); }
+    public bool IsVisited()     { return(type == MazeCellType.VISITED); }
+    public bool IsAArena()      { return(type == MazeCellType.ARENA); }
+
     public MazeCell(int col, int row) 
     {
         this.Col = col;
         this.Row = row;
     }
 
-    public void MarkAsVisited() 
+    public void SetMazeCell(string title, Color color) 
     {
-        BeenVisited = true;
-    }
+        GameObject go = MazePath.transform.Find(title).gameObject;
 
-    // public override string ToString()
-    // {
-    //     return $"Col: {Col},Row: {Row} - Visted: {BeenVisited}";
-    // }
+        go.GetComponent<Renderer>().material.color = color;
+    }
 
     public void CollapseWall(MazeCell neighbor)
     {
@@ -59,4 +65,11 @@ public class MazeCell
             }
         }
     }
+}
+
+public enum MazeCellType
+{
+    UNVISITED,
+    VISITED,
+    ARENA
 }

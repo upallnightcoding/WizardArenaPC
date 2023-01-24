@@ -19,7 +19,7 @@ public class PlayerCntrl : MonoBehaviour
     private Transform cameraFollowPos;
 
     private InputAction movement;
-    private InputAction firer;
+    private InputAction cast;
 
     private float inputX;
     private float inputZ;
@@ -34,8 +34,6 @@ public class PlayerCntrl : MonoBehaviour
         animator.SetFloat("speed", inputZ);
 
         characterCntrl.transform.Rotate(Vector3.up * (inputX * rotationSpeed * Time.deltaTime));
-
-        //Vector3 move = characterCntrl.transform.forward * inputZ;
 
         characterCntrl.Move(characterCntrl.transform.forward * (inputZ * movementSpeed * Time.deltaTime));
     }
@@ -56,9 +54,9 @@ public class PlayerCntrl : MonoBehaviour
 
     }
 
-    private void PlayerFired(InputAction.CallbackContext cb)
+    private void PlayerCast(InputAction.CallbackContext cb)
     {
-        Debug.Log("PlayerFired ...");
+        Debug.Log($"PlayerFired ... {Mouse.current.position.ReadValue()}");
     }
    
     private void Awake() {
@@ -73,30 +71,28 @@ public class PlayerCntrl : MonoBehaviour
 
         cameraObservePos = gameObject.transform.Find("CameraObservePosition");
         cameraFollowPos = gameObject.transform.Find("CameraFollowPosition");
-
-        Debug.Log($"{cameraObservePos.position}/{cameraFollowPos.position}");
     }
 
     private void OnEnable() {
         playerInputActions.Enable();
 
         movement = playerInputActions.Player.Movement;
-        firer = playerInputActions.Player.Fire;
+        cast = playerInputActions.Player.Cast;
 
         movement.Enable();   
-        firer.Enable();
+        cast.Enable();
 
         // Define all callbacks
-        firer.performed += PlayerFired; 
+        cast.performed += PlayerCast; 
     }
 
     private void OnDisable() {
         playerInputActions.Disable();
 
         movement.Disable();
-        firer.Disable();
+        cast.Disable();
 
         // UnDefine all callbacks
-        firer.performed -= PlayerFired; 
+        cast.performed -= PlayerCast; 
     }
 }

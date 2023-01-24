@@ -7,13 +7,16 @@ public class MazeGenerator
 {
     public int Width { get; private set; }
     public int Height { get; private set; }
+    public int ArenaSize { get; private set; }
 
     private IDictionary<MazeIndex, MazeCell> maze;
     private Stack<MazeCell> mazeStack;
+    private List<MazeCell> mazeList;
 
-    public MazeGenerator(int width, int height) {
-        this.Width = width;
-        this.Height = height;
+    public MazeGenerator(MazeData mazeData) {
+        this.Width = mazeData.width;
+        this.Height = mazeData.height;
+        this.ArenaSize = mazeData.arenaSize;
 
         mazeStack = new Stack<MazeCell>();
         maze = new Dictionary<MazeIndex, MazeCell>();
@@ -31,6 +34,24 @@ public class MazeGenerator
 
             WalkMaze(neighbor);
         }
+
+        mazeList = new List<MazeCell>(maze.Values);
+    }
+
+    public MazeCell GetMazeCell(int col, int row)
+    {
+        MazeCell mazeCell = null;
+
+        if (!maze.TryGetValue(new MazeIndex(col, row), out mazeCell)) {
+            mazeCell = null;
+        } 
+
+        return(mazeCell);
+    }
+
+    public MazeCell PickRandomCell()
+    {
+        return(mazeList[UnityEngine.Random.Range(0, mazeList.Count)]);
     }
 
     private void WalkMaze(MazeCell neighbor)
@@ -62,7 +83,7 @@ public class MazeGenerator
 
             MazeCell candidate = GetMazeCell(col, row);
 
-            if (candidate != null && (!candidate.BeenVisited)) 
+            if (candidate != null && (candidate.IsUnVisited())) 
             {
                 validNeighborList.Add(candidate);
             }
@@ -82,12 +103,14 @@ public class MazeGenerator
 
     private void InitMazeGenerator()
     {
-        BuildMaze();
+        BuildMazeDictionary();
 
         SetStartingCell();
+
+        SetupArena();
     }
 
-    private void BuildMaze()
+    private void BuildMazeDictionary()
     {
         for (int  col = 0;  col < Width;  col++) 
         {
@@ -98,27 +121,40 @@ public class MazeGenerator
         }
     }
 
+    private void SetupArena()
+    {
+        int offset = (Width - ArenaSize) / 2;
+
+        for (int col = 0; col < ArenaSize; col++)
+        {
+            for (int row = 0; row < ArenaSize; row++)
+            {
+                //maze.Remove(new MazeIndex(col+offset, row+offset));
+
+                MazeCell arenaCell = GetMazeCell(col+offset, row+offset);
+
+                if (arenaCell != null) 
+                {
+                    arenaCell.SetAsArena();
+                }
+            }
+        }
+    }
+
     private void SetStartingCell()
     {
-        MazeCell cell = GetRandomMazeCell();
-        cell.MarkAsVisited();
-        mazeStack.Push(cell);
+        MazeCell cell = GetMazeCell(0, 0);
+
+        if (cell != null) 
+        {
+            cell.MarkAsVisited();
+            mazeStack.Push(cell);
+        }
     }
 
     private bool MazeStackEmpty()
     {
         return(mazeStack.Count == 0);
-    }
-
-    public MazeCell GetMazeCell(int col, int row)
-    {
-        MazeCell mazeCell = null;
-
-        if (!maze.TryGetValue(new MazeIndex(col, row), out mazeCell)) {
-            mazeCell = null;
-        } 
-
-        return(mazeCell);
     }
 
     private MazeCell GetRandomMazeCell() {

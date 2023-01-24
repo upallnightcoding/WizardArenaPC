@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70d65d0e224a6443ae021085f6504a9, type: 3}
   m_Name: MazeData
   m_EditorClassIdentifier: 
-  height: 7
-  width: 7
+  height: 12
+  width: 12
+  arenaSize: 4
   cellSize: 6
   mazePathPreFab: {fileID: 2139055340411595463, guid: c59af19f3f4dcd84fb44024529cecf0b, type: 3}
   mazeWallPreFab: {fileID: 1683018183455508976, guid: 9f4ba4b129862ee4c89a0aea70ad6bf0, type: 3}
   mazeWallColumnPreFab: {fileID: 5692767165658355990, guid: 77e47724ebd65704a916be7bc54f407c, type: 3}
+  mazeArenaEntrance: {fileID: 7739033186098565281, guid: f79754200f6c2a44da7de5c824f06474, type: 3}
+  mazeArenaFloor: {fileID: 4954053484381620491, guid: bbd112191a0532345be1f0a88f9945f1, type: 3}
+  mazeArenaCircle: {fileID: 1600241872192826219, guid: bcb474d2914877742a3e211a7e912f42, type: 3}
