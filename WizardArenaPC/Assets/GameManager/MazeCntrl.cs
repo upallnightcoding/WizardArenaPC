@@ -5,6 +5,7 @@ using UnityEngine;
 public class MazeCntrl : MonoBehaviour
 {
     [SerializeField] private MazeData mazeData;
+    [SerializeField] private GameObject orcPlayer;
 
     private GameObject mazePathPreFab;
     private GameObject mazeWallPreFab;
@@ -47,9 +48,7 @@ public class MazeCntrl : MonoBehaviour
         southEastAnchor = anchors.Find("SouthEastAnchor");
         southWestAnchor = anchors.Find("SouthWestAnchor");
 
-        MazeGenerator maze = new MazeGenerator(mazeData);
-
-        maze.Generate();
+        MazeGenerator maze = mazeData.GenerateMaze();
 
         Display(maze);
     }
@@ -71,8 +70,10 @@ public class MazeCntrl : MonoBehaviour
             offset.z += cellSize;
         }
 
-        maze.PickRandomCell().SetMazeCell("Building_Floor_01", Color.red);
-        maze.PickRandomCell().SetMazeCell("Building_Floor_01", Color.green);
+        //maze.PickRandomCell().SetMazeCell("Building_Floor_01", Color.red);
+        //maze.PickRandomCell().SetMazeCell("Building_Floor_01", Color.green);
+
+        Instantiate(orcPlayer);
 
         CreateArena();
     }
@@ -128,7 +129,7 @@ public class MazeCntrl : MonoBehaviour
 
         if ((arenaSouthCell != null) && (arenaSouthCell.IsAArena()))
         {
-            CreateWall(mazeCell.SouthWall, mazePath, offset, 90.0f, southAnchor);
+            CreateWall(mazeCell.HasSouthWall(), mazePath, offset, 90.0f, southAnchor);
 
             CreateColumn(mazePath, offset, southEastAnchor);
         }
@@ -142,7 +143,7 @@ public class MazeCntrl : MonoBehaviour
                 CreatePreFab(mazeArenaEntrance, mazePath, offset, 0.0f, westAnchor);
                 arenaEntranceSw = true;
             } else {
-                CreateWall(mazeCell.WestWall, mazePath, offset, 0.0f, westAnchor);
+                CreateWall(mazeCell.HasWestWall(), mazePath, offset, 0.0f, westAnchor);
             }
             
             CreateColumn(mazePath, offset, northWestAnchor);
@@ -155,19 +156,19 @@ public class MazeCntrl : MonoBehaviour
         {
             if (col == 0) 
             {
-                CreateWall(cell.NorthWall, mazePath, offset, 90.0f, northAnchor);
-                CreateWall(cell.SouthWall, mazePath, offset, 90.0f, southAnchor);
-                CreateWall(cell.EastWall, mazePath, offset, 0.0f, eastAnchor);
-                CreateWall(cell.WestWall, mazePath, offset, 0.0f, westAnchor);
+                CreateWall(cell.HasNorthWall(), mazePath, offset, 90.0f, northAnchor);
+                CreateWall(cell.HasSouthWall(), mazePath, offset, 90.0f, southAnchor);
+                CreateWall(cell.HasEastWall(), mazePath, offset, 0.0f, eastAnchor);
+                CreateWall(cell.HasWestWall(), mazePath, offset, 0.0f, westAnchor);
 
                 CreateColumn(mazePath, offset, northEastAnchor);
                 CreateColumn(mazePath, offset, northWestAnchor);
                 CreateColumn(mazePath, offset, southEastAnchor);
                 CreateColumn(mazePath, offset, southWestAnchor);
             } else {
-                CreateWall(cell.NorthWall, mazePath, offset, 90.0f, northAnchor);
-                CreateWall(cell.SouthWall, mazePath, offset, 90.0f, southAnchor);
-                CreateWall(cell.EastWall, mazePath, offset, 0.0f, eastAnchor);
+                CreateWall(cell.HasNorthWall(), mazePath, offset, 90.0f, northAnchor);
+                CreateWall(cell.HasSouthWall(), mazePath, offset, 90.0f, southAnchor);
+                CreateWall(cell.HasEastWall(), mazePath, offset, 0.0f, eastAnchor);
 
                 CreateColumn(mazePath, offset, northEastAnchor);
                 CreateColumn(mazePath, offset, southEastAnchor);
@@ -175,15 +176,15 @@ public class MazeCntrl : MonoBehaviour
         } else {
             if (col == 0) 
             {
-                CreateWall(cell.NorthWall, mazePath, offset, 90.0f, northAnchor);
-                CreateWall(cell.EastWall, mazePath, offset, 0.0f, eastAnchor);
-                CreateWall(cell.WestWall, mazePath, offset, 0.0f, westAnchor);
+                CreateWall(cell.HasNorthWall(), mazePath, offset, 90.0f, northAnchor);
+                CreateWall(cell.HasEastWall(), mazePath, offset, 0.0f, eastAnchor);
+                CreateWall(cell.HasWestWall(), mazePath, offset, 0.0f, westAnchor);
 
                 CreateColumn(mazePath, offset, northEastAnchor);
                 CreateColumn(mazePath, offset, northWestAnchor);
             } else {
-                CreateWall(cell.NorthWall, mazePath, offset, 90.0f, northAnchor);
-                CreateWall(cell.EastWall, mazePath, offset, 0.0f, eastAnchor);
+                CreateWall(cell.HasNorthWall(), mazePath, offset, 90.0f, northAnchor);
+                CreateWall(cell.HasEastWall(), mazePath, offset, 0.0f, eastAnchor);
 
                 CreateColumn(mazePath, offset, northEastAnchor);
             }

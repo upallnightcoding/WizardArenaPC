@@ -129,8 +129,6 @@ public class MazeGenerator
         {
             for (int row = 0; row < ArenaSize; row++)
             {
-                //maze.Remove(new MazeIndex(col+offset, row+offset));
-
                 MazeCell arenaCell = GetMazeCell(col+offset, row+offset);
 
                 if (arenaCell != null) 

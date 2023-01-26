@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MazeIndex 
 {
-   public int col { get; private set; }
-   public int row { get; private set; }
+    public int col { get; private set; }
+    public int row { get; private set; }
 
-   public MazeIndex(int col, int row) 
-   {
+    public MazeIndex(int col, int row) 
+    {
         this.col = col;
         this.row = row;
-   }
+    }
 
     public override bool Equals(object obj)
     {

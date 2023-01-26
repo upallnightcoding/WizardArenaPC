@@ -20,6 +20,19 @@ public class MazeData : ScriptableObject {
     public GameObject mazeArenaFloor;
     public GameObject mazeArenaCircle;
 
+    private MazeGenerator maze; 
+
+    public MazeGenerator GetMaze() { return(maze); }
+
+    public MazeGenerator GenerateMaze()
+    {
+        maze = new MazeGenerator(this);
+
+        maze.Generate();
+
+        return(maze);
+    }
+
     public Vector3 GetMazeCenter() 
     {
         Vector3 center = new Vector3();
