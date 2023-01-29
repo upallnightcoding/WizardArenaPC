@@ -13,7 +13,10 @@ public class OrcCntrl : MonoBehaviour
     private CharacterController charCntrl;
 
     private MazeGenerator maze;
-    private MazeCell targetPoint;
+
+    private MazeCell currentCell;
+    private MazeCell targetCell;
+    private MazeCell previousCell;
 
     private OrcStateType state = OrcStateType.IDLE;
     private float idleWait = 0.0f;
@@ -23,10 +26,11 @@ public class OrcCntrl : MonoBehaviour
     {
         maze = mazeData.GetMaze();
 
-        MazeCell startPoint = maze.PickRandomCell();
-        transform.position = startPoint.MazePath.transform.position;
+        previousCell = null;
+        currentCell = maze.PickRandomCell();
+        targetCell = PickFreeNeighbor(currentCell, previousCell);
 
-        targetPoint = startPoint.PickFreeNeighbor();
+        transform.position = currentCell.Position();
 
         charCntrl = GetComponent<CharacterController>();
     }
@@ -54,36 +58,48 @@ public class OrcCntrl : MonoBehaviour
 
     private OrcStateType Patrol(float dt) 
     {
-        float distance = Vector3.Distance(targetPoint.MazePath.transform.position, transform.position);
+        float distance = Vector3.Distance(targetCell.Position(), transform.position);
 
         if (distance < turnDistance) 
         {
-            targetPoint = targetPoint.PickFreeNeighbor();
+            targetCell = PickFreeNeighbor(currentCell, previousCell);
+            previousCell = currentCell;
+            currentCell = targetCell;
         }
 
-        PatrolMaze(targetPoint.MazePath.transform.position, dt);
+        MoveToTargetPoint(targetCell.Position(), dt);
 
         return(OrcStateType.PATROL);
     }
 
-    private void PatrolMaze(Vector3 target, float dt)
+    private MazeCell PickFreeNeighbor(MazeCell current, MazeCell previous)
+    {
+        List<MazeCell> freeList = current.ListFreeNeighbor(); 
+
+        if ((previous != null) && (freeList.Count > 1)) {
+            freeList.RemoveAll(cell => cell.IsEqual(previous));
+        }
+
+        return(freeList[Random.Range(0, freeList.Count)]);
+    }
+
+    private void MoveToTargetPoint(Vector3 target, float dt)
     {
         float distance = Vector3.Distance(target, transform.position);
         Vector3 direction = (target - transform.position).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * dt);
 
-        transform.rotation = rotation;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * dt);
 
         charCntrl.Move(transform.forward * moveSpeed * dt);
     }
 
     private void OnDrawGizmos() 
     {
-        if (targetPoint != null) 
+        if (targetCell != null) 
         {
-            Gizmos.DrawLine(targetPoint.MazePath.transform.position, transform.position);
+            Gizmos.DrawLine(targetCell.Position(), transform.position);
         }
     }
 }

@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mazeData: {fileID: 11400000, guid: 219f3b9b9bc43744aa9bee9d56356292, type: 2}
   idleTime: 10
-  rotationSpeed: 200
+  rotationSpeed: 150
   moveSpeed: 1.5
-  turnDistance: 2
+  turnDistance: 1.5
 --- !u!143 &725309651835866917
 CharacterController:
   m_ObjectHideFlags: 0

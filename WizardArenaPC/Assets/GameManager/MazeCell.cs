@@ -27,13 +27,15 @@ public class MazeCell
     public bool HasEastWall()   { return(EastWall == null); }
     public bool HasWestWall()   { return(WestWall == null); }
 
+    public Vector3 Position()   { return(MazePath.transform.position); }
+
     public MazeCell(int col, int row) 
     {
         this.Col = col;
         this.Row = row;
     }
 
-    public MazeCell PickFreeNeighbor()
+    public List<MazeCell> ListFreeNeighbor()
     {
         List<MazeCell> freeList = new List<MazeCell>(); 
 
@@ -42,9 +44,12 @@ public class MazeCell
         if (!HasEastWall()) freeList.Add(EastWall);
         if (!HasWestWall()) freeList.Add(WestWall);
 
-        int pick = Random.Range(0, freeList.Count);
+        return(freeList);
+    }
 
-        return(freeList[pick]);
+    public bool IsEqual(MazeCell target)
+    {
+        return((target.Col == Col) && (target.Row == Row));
     }
 
     public void SetMazeCell(string title, Color color) 
